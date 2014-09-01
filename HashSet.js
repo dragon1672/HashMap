@@ -26,5 +26,12 @@ var HashSet = (function() {
 	HashSet.prototype.foreachInSet = function (theirFunction) {
 		return this.myTable.foreachInSet(function(key,val) { theirFunction(key); });
 	};
+    HashSet.prototype.toList = function () {
+        var ret = [];
+		this.foreachInSet(function (item) {
+            ret.push(item);
+		});
+        return ret;
+	};
     return HashSet;
 })();
