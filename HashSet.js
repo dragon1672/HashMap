@@ -32,8 +32,8 @@ var HashSet = (function() {
 	};
 	HashSet.prototype.join  = function (that) {
 		var ret = new HashSet();
-		this.myTable.foreachInSet(function (key, val) {
-			if (that.contains(key)) { ret.add(key); }
+		this.foreachInSet(function (item) {
+			if (that.contains(item)) { ret.add(item); }
 		});
 		return ret;
 	};
@@ -56,7 +56,7 @@ var HashSet = (function() {
         return that.isSubSet(this);
 	};
 	HashSet.prototype.foreachInSet = function (theirFunction) {
-		return this.myTable.foreachInSet(function(key,val) { theirFunction(key); });
+		return this.myTable.foreachInSet(function(key,val) { val = val; theirFunction(key); });
 	};
     HashSet.prototype.toList = function () {
         var ret = [];

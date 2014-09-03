@@ -1,17 +1,21 @@
-var HashTable = (function() {
+var HashTable, HashMap;
+ HashTable = HashMap = (function() {
 	function HashTable() {
 		this.pairs = [];
 		this.orderedPairs = [];
 	}
-	HashTable.prototype.hashObject = function (value) {
-		return (typeof value) + ' ' + (value instanceof Object ? (value.__hash || (value.__hash = ++arguments.callee.current)) : value.toString());
-	};
-	HashTable.prototype.hashObject.current = 0;
 	function KeyValuePair(hash, key, val) {
 		this.hash = hash;
 		this.key = key;
 		this.val = val;
 	}
+    
+    var hasher = function (value) {
+        return (typeof value) + ' ' + (value instanceof Object ? (value.__hash || (value.__hash = ++arguments.callee.current)) : value.toString());
+    };
+    hasher.current = 0;
+    
+    HashTable.prototype.hashObject = hasher;
 	KeyValuePair.prototype.containsKey = function (key) { return this.key === key; };
 	KeyValuePair.prototype.containsVal = function (val) { return this.val === val; };
 	HashTable.prototype.add = function (newKey, newVal) {
@@ -54,8 +58,12 @@ var HashTable = (function() {
 		});
 		return ret;
 	};
-	HashTable.prototype.isEmpty = function () { return this.size() === 0; };
-	HashTable.prototype.size = function () { return this.orderedPairs.length; };
+	HashTable.prototype.isEmpty = function () {
+        return this.size() === 0;
+    };
+	HashTable.prototype.size = function () {
+        return this.orderedPairs.length;
+    };
 	//pass in function(key,val)
 	HashTable.prototype.foreachInSet = function (theirFunction) {
 		this.orderedPairs.map(function (item) {
