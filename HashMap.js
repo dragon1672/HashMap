@@ -51,7 +51,7 @@ var HashTable, HashMap;
                     return;
                 }
                 for (i = 0; i < potato.orderedPairs.length; i++) {
-                    if (potato.orderedPairs[i] === this.pairs[hash]) {
+                    if (potato.orderedPairs[i] === potato.pairs[hash]) {
                         potato.orderedPairs.splice(i, 1);
                         potato.pairs[hash] = null;
                         return;
