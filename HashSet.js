@@ -2,15 +2,18 @@
  * Hash Set developed by Anthony Corbin
 //*/
 var HashSet = (function() {
-	function HashSet() {
+	function HashSet(array) {
 		this.myTable = new HashTable();
+		if(array instanceof Array) {
+			this.addAll(array);
+		}
 	}
 	HashSet.prototype.add      = function (val)      { return this.myTable.add(val, true);       };
 	HashSet.prototype.addAll   = function (vals)     { var potato = this; vals.map(function(item) { potato.myTable.add(item,true); }); };
 	HashSet.prototype.contains = function (toCheck)  { return this.myTable.containsKey(toCheck); };
 	HashSet.prototype.remove   = function (toRemove) { return this.myTable.remove(toRemove);     };
 	HashSet.prototype.size     = function ()         { return this.myTable.size(); };
-	
+
 	HashSet.prototype.cross = function (that) {
 		var ret = new HashSet();
 		this.foreachInSet(function (a) {
@@ -38,9 +41,13 @@ var HashSet = (function() {
 		return ret;
 	};
 	HashSet.prototype.removeSet = function (that) {
-		that.foreachInSet(function(item) {
-			this.remove(item); 
+		var ret = new HashSet();
+		this.map(function(item) {
+			if(!that.contains(item)) {
+				ret.add(item);
+			}
 		});
+		return ret;
 	};
 	HashSet.prototype.isEqual   = function (that) {
 		return this.isSubsetOf(that) && that.isSuperSet(this);
